@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منزل للايجار</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <style>
+    /* Optional styles for the suggestion list */
+    .autocomplete-suggestions {
+        margin-top: auto;
+      position: absolute;
+      z-index: 10;
+      background-color: #4e4949;
+      border: 0.5px solid #3d3c3c;
+      width: 150px;
+      cursor: pointer;
+
+    }
+
+    body {
+			background-color: #f2f2f2;
+            background-image:  url("https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+			background-repeat: no-repeat;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+		}
+		
+		h2 {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+		label {
+			display: block;
+			font-weight: bold;
+			margin-bottom: 5px;
+		}
+        input , label , span , textarea{
+            margin-bottom: 20px;
+        }
+		input[type="email"], input[type="password"] {
+			width: 100%;
+			padding: 10px;
+			margin-bottom: 20px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+			font-size: 16px;
+		}
+		input[type="submit"] {
+			background-color: #333;
+			color: #fff;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 16px;
+		}
+		input[type="submit"]:hover {
+			background-color: #666;
+		}
+
+		/* Media Queries for Responsive Design */
+
+		@media screen and (max-width: 480px) {
+			.container {
+				max-width: 100%;
+				padding: 10px;
+			}
+			input[type="submit"] {
+				font-size: 14px;
+			}
+		}
+		.add-btn {
+			display: inline-block;
+			background-color: #27ae60;
+			color: #fff;
+			border: none;
+			padding: 8px 16px;
+			border-radius: 4px;
+			text-decoration: none;
+		  }
+		  
+		  .add-btn:hover {
+			background-color: #219d54;
+		  }
+
+          a:link, a:visited {
+            
+			
+			cursor: pointer;
+			font-size: 16px;
+}
+
+a:hover, a:active {
+  background-color: rgb(196, 184, 184);
+}
+footer {
+  position: relative; /* Make footer absolute positioned */
+  bottom: 0; /* Position footer at the bottom */
+  left: 0; /* Align footer to the left */
+  width: 100%; /* Set footer width to 100% */
+  height: 10vh; /* Set footer height (optional) */
+
+}
+
+html, body {
+  direction: rtl;
+}
+  </style>
+</head>
+<body>
+
+  <header class="bg-dark py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+     
+
+    </div>
+      <nav class="d-flex align-items-center">
+        <a href="/" class="text-light text-decoration-none px-3">الصفحة الرئيسية</a>
+        <a href="#div_id" class="text-light text-decoration-none px-3">من نحن</a>
+        <a href="#div_id" class="text-light text-decoration-none px-3">بيانات الاتصال</a>
+        <% if (name) { %>
+        <a href="/user" class="btn btn-light btn-sm ms-3"><%= name %></a>  
+        <a href="/logout" class="btn btn-light btn-sm ms-3">تسجيل الخروج</a>
+        <% } else{ %>  
+            <a href="/signin" class="btn btn-light btn-sm ms-3">تسجيل الدخول</a>
+         <% } %>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container py-5">
+
+    <section class="d-flex flex-column align-items-center mb-5">
+      <h1 class="display-4 mb-4">مرحبا</h1>
+      <% if (flashMessage) { %>
+        <% for (let item of flashMessage) { %>
+        <center id ="msg" style=" padding-bottom: 25px;" >  
+            
+                <button class="add-btn" onclick="deleteMsg()"> <%= item %> <i class="fa fa-check"></i></button>
+              
+     
+        </center> 
+        <% } %>   
+  <% } %>
+      <center>
+        <form id="image-form"  action = "/user" method="POST" enctype="multipart/form-data" >
+      <div class="card" style="width: 48rem; margin-bottom: 30px;">
+        <div class="card-body">
+          <h5 class="card-title">انشاء اعلان</h5>
+          <h6 class="card-subtitle mb-2 text-muted">بيانات الاعلان</h6>
+
+          
+
+          <div class="row">
+            <div class="col-sm">
+
+                <div class="input-group " style="direction: ltr;">
+                    
+                    <input type="file" class="form-control" id="inputGroupFile" name="inputGroupFile" accept="image/png, image/gif, image/jpeg">
+                    <label class="input-group-text" for="inputGroupFile">ارفق صوره</label>
+                  </div>
+                  
+            </div>
+
+            <div class="col-sm"  style="direction: ltr;">
+
+                <div class=" input-group ">
+                    <span class="input-group-text" id="basic-addon3">المساحه</span>
+
+                  <input type="number"class="form-control" id="size" name="size" placeholder="المساحه" aria-label="Size" aria-describedby="button-addon2"   >
+                  
+                </div>
+
+            </div>
+          </div>
+         <div class="row">
+            <div class="col-sm" style="direction: ltr;">
+                <div class=" input-group ">
+                    <span class="input-group-text" id="basic-addon3">عدد الغرف</span>
+
+                  <input type="number"class="form-control"  id="Room" name="Room" aria-label="عدد الغرف" aria-describedby="button-addon2"  >
+                  
+                </div>
+                
+            </div>
+            <div class="col-sm"  style="direction: ltr;">
+                
+                <div class=" input-group ">
+                    <span class="input-group-text" id="basic-addon3">الهاتف</span>
+
+                  <input type="number"class="form-control" id="Phone" name="Phone" placeholder="010001111222" aria-label="Phone" aria-describedby="button-addon2"   >
+                  
+                </div>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+
+                <div>
+
+                    <div class=" input-group "  style="direction: ltr;">
+                        <span class="input-group-text" id="basic-addon3">الموقع</span>
+    
+                      <input type="text" id="autocomplete" name="autocomplete"  class="form-control" placeholder="اختار الموقع" aria-label="Search for Cities" aria-describedby="button-addon2" onclick="hidde();"  >
+                      
+                    </div>
+                    <div id="autocomplete1" name="autocomplete1" ></div>
+                  </div>
+            
+            </div>
+            <div class="col-sm">
+                    
+
+
+                <div class=" input-group "  style="direction: ltr;">
+                    <span class="input-group-text" id="basic-addon3">السعر</span>
+
+                  <input type="number"class="form-control" placeholder="100" id="Price" name="Price" aria-label="Price" aria-describedby="button-addon2"   >
+                  
+                </div>
+
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+
+                <div class="input-group"  style="direction: ltr;">
+                    
+                    <textarea class="form-control" id="Description" name="Description" aria-label="write option of the home"></textarea>
+                    <span class="input-group-text">الوصف </span>
+                  </div>
+
+
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-secondary btn-lg btn-block">حفظ</button>
+        </div>
+      </div>
+    </form>
+    </center>
+
+      <p class="lead">اعلاناتى</p>
+     
+    </section>
+
+    
+    <% for (let item of Data) { %>
+      
+        <center>
+  
+          <div class="card" style="width: 48rem; margin-bottom: 30px;">
+              <div class="card-body">
+                <h5 class="card-title"><%= item['name'] %></h5>
+                <h6 class="card-subtitle mb-2 text-muted"><%= item['username'] %></h6>
+                <img src='http://127.0.0.1:3000/download/<%= item['id'] %>' class="card-img-top" alt="..." width="300" height="400">
+                <p class="card-text"><%= item['Description'] %></p>
+                
+                
+                <div class="row">
+                  <div class="col-sm">
+                    <a  >المساحه:<%= item['size'] %></a>
+                  </div>
+                  <div class="col-sm">
+                    <a  >عدد الغرف:<%= item['room'] %></a>  
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm">
+                    <a  class="card-link">الهاتف:<%= item['phone'] %></a>
+                  </div>
+                  <div class="col-sm">
+                    <a  class="card-link">السعر:<%= item['price'] %></a>  
+                  </div>
+                </div>
+
+                <div class="row">
+                    <a  class="card-link">الموقع:<%= item['Location'] %></a> 
+                </div>
+                
+
+              <a href ="http://127.0.0.1:3000/deleteAds/<%= item['id'] %>"  class="btn btn-danger">حذف</a>
+
+
+              </div>
+            </div>
+      
+          </center>
+        <% } %> 
+
+
+      
+
+        
+
+    
+    
+  </main>
+
+  <footer class="bg-dark text-light text-center py-3" id ="div_id">
+    <p>Copyright &copy;  موقع الايجار 2024  01234567890</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFOnpDln4hrXvNCqoO5EoUsJYwPEiDksV1LNUjTd8qhLcsVV9iK5pDDxlC" crossorigin="anonymous"></script>
+
+  <script>
+
+        
+
+
+
+
+    const countries = [
+  
+    'Cairo' ,
+    'Alexandria',
+    'Giza',
+    'Sharm El Sheikh',
+    'Hurghada',
+    'Luxor',
+    'Aswan',
+    'Suez',
+    'Port Said',
+    'El Gouna',
+    'El Minya',
+    'Marsa Alam',
+    'Damietta',
+    'Tanta',
+    'Ismailia',
+    'Fayoum',
+    "Cairo",
+"Giza",
+"Alexandria",
+"Shubra al Khaymah",
+"Al Mansurah",
+"Halwan",
+"Al Mahallah al Kubra",
+"Port Said",
+"Suez",
+"Al `Ashir min Ramadan",
+"Tanta",
+"Asyut",
+"Biba",
+"Ash Shuhada'",
+"Az Zaqaziq",
+"Al Fayyum",
+"Al `Ajami",
+"Al Matariyah",
+"Ismailia",
+"Kafr ad Dawwar",
+"Aswan",
+"Damanhur",
+"Al Minya",
+"Mallawi",
+"Damietta",
+"Qina",
+"Bani Suwayf",
+"Timayy al Imdid",
+"Luxor",
+"Suhaj",
+"Shibin al Kawm",
+"Al `Arish",
+"Banha",
+"Al Ghardaqah",
+"Kafr ash Shaykh",
+"Madinat as Sadis min Uktubar",
+"Disuq",
+"Bilbays",
+"Idfu",
+"Mit Ghamr",
+"Sinnuris",
+"Rosetta",
+"Jirja",
+"Munuf",
+"Faqus",
+"Qalyub",
+"Matruh",
+"Idku",
+"Akhmim",
+"Zifta",
+"Al Badrashayn",
+"Talkha",
+"Manfalut",
+"Al Khankah",
+"Bani Mazar",
+"Kirdasah",
+"Kafr az Zayyat",
+"Maghaghah",
+"`Izbat al Burj",
+"Al Qusiyah",
+"Abnub",
+"Tukh",
+"Hihya",
+"Al Minshah",
+"Al Qurayn",
+"Dalja",
+"As Saff",
+"Samannud",
+"Abu Qir",
+"Al Karnak",
+"Al Balyana",
+"Al Kharjah",
+"Al `Ayyat",
+"Naj` Hammadi",
+"Al Badari",
+"Kafr al Kurdi",
+"Dayr Mawas",
+"Faraskur",
+"Shanawan",
+"Qiman al `Arus",
+"As Sarw",
+"Qaha",
+"Hirriyat Raznah",
+"Mit Nama",
+"Kafr Shukr",
+"Sharunah",
+"Abu Sir Bana",
+"Bani Murr",
+"Al Madamud",
+"Sunbat",
+"Al Qays",
+"Jarajus",
+"Zawiyat Razin",
+"Dayr Abu Hinnis",
+"Bani Hasan ash Shuruq",
+"Biyahmu",
+"Aja",
+"Birqash",
+"Dishashah",
+"Mit Damsis",
+"At Tur",
+"Qufadah",
+"Shanhur",
+"Dayr as Sanquriyah",
+"Ra's Gharib",
+"Al Jammaliyah",
+"Samalut",
+"Bi'r al `Abd",
+"Madinat as Sadat",
+"Armant",
+"Sharm ash Shaykh",
+"Farshut",
+"Kawm Umbu",
+"Bur Fu'ad",
+"Isna",
+"Dikirnis",
+"Abu Qurqas",
+"Ash Shaykh Zuwayd",
+"Dandarah",
+"Matay",
+"Mit Salsil",
+"Bani `Ubayd",
+"Kafr al Battikh",
+"Abu al Matamir",
+"San al Hajar al Qibliyah",
+"Ihnasya al Madinah",
+"Nabaruh",
+"Daraw",
+"Rafah",
+"Ar Rahmaniyah",
+"Mahallat Damanah",
+"Qutur",
+"Al Husayniyah",
+"Abu Suwayr",
+"Shubrakhit",
+"Safaja",
+"Kafr Sa`d",
+"Qift",
+"Siwah",
+"Naqadah",
+"Sa al Hajar",
+"Al Hibah",
+"Sakha",
+"Qantir",
+"Sidmant al Jabal",
+"Sidi Barani",
+"Dayr al Barsha",
+"Ad Dab`ah",
+"Burj al `Arab",
+"Sawadah",
+"Abjij",
+"Qal`at an Nakhl",
+"Najrij",
+"As Sallum",
+"Al `Alamayn",
+"Mandishah",
+"Qasr al Farafirah",
+"Al Qasr",
+"Barnis",
+"El Salam",
+"Dar El Salam",
+"Maadi"
+
+];
+
+const autocompleteInput = document.getElementById("autocomplete");
+
+const suggestionsList = document.createElement("ul");
+suggestionsList.classList.add("autocomplete-suggestions");
+
+function showSuggestions(userInput) {
+  const filteredSuggestions = countries.filter(
+    (country) => country.toLowerCase().startsWith(userInput.toLowerCase())
+  );
+
+  suggestionsList.innerHTML = "<br><br>"; // Clear previous suggestions
+
+  if (filteredSuggestions.length > 0) {
+    filteredSuggestions.forEach((suggestion) => {
+      const suggestionItem = document.createElement("li");
+      suggestionItem.classList.add("autocomplete-suggestion");
+      suggestionItem.innerText = suggestion;
+      suggestionItem.addEventListener("click", () => {
+        autocompleteInput.value = suggestion;
+        suggestionsList.classList.remove("active");
+        suggestionsList.innerHTML = "";
+      });
+      suggestionsList.appendChild(suggestionItem);
+    });
+    autocompleteInput.parentNode.appendChild(suggestionsList);
+    suggestionsList.classList.add("active"); // Show suggestions list
+  } else {
+    suggestionsList.classList.remove("active"); // Hide suggestions if none found
+  }
+}
+
+autocompleteInput.addEventListener("keyup", (event) => {
+  const userInput = event.target.value;
+  if (userInput.length > 0) {
+    showSuggestions(userInput);
+  } else {
+    suggestionsList.classList.remove("active"); // Hide suggestions on empty input
+  }
+});
+
+// Handle click outside the autocomplete input and suggestion list
+document.addEventListener("click", (event) => {
+  if (!event.target.matches("#autocomplete") && !event.target.classList.contains("autocomplete-suggestion")) {
+    suggestionsList.classList.remove("active");
+  }
+});
+
+
+function hidde(){
+    
+    //suggestionsList.classList.remove("active");
+    suggestionsList.innerHTML = "";
+}
+
+function deleteMsg(){
+  document.getElementById('msg').remove();
+}
+  </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<style>
+		body {
+			background-color: #f2f2f2;
+            background-image:  url("https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+			background-repeat: no-repeat;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+		}
+		.container {
+			margin: auto;
+			max-width: 400px;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0px 0px 10px #ddd;
+		}
+		h2 {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+		label {
+			display: block;
+			font-weight: bold;
+			margin-bottom: 5px;
+		}
+		input[type="email"], input[type="password"] {
+			width: 100%;
+			padding: 10px;
+			margin-bottom: 20px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+			font-size: 16px;
+		}
+		input[type="submit"] {
+			background-color: #333;
+			color: #fff;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 16px;
+		}
+		input[type="submit"]:hover {
+			background-color: #666;
+		}
+
+		/* Media Queries for Responsive Design */
+
+		@media screen and (max-width: 480px) {
+			.container {
+				max-width: 100%;
+				padding: 10px;
+			}
+			input[type="submit"] {
+				font-size: 14px;
+			}
+		}
+		.add-btn {
+			display: inline-block;
+			background-color: #27ae60;
+			color: #fff;
+			border: none;
+			padding: 8px 16px;
+			border-radius: 4px;
+			text-decoration: none;
+		  }
+		  
+		  .add-btn:hover {
+			background-color: #219d54;
+		  }
+
+          a:link, a:visited {
+            
+			
+			cursor: pointer;
+			font-size: 16px;
+}
+
+a:hover, a:active {
+  background-color: rgb(196, 184, 184);
+}
+
+html, body {
+  direction: rtl;
+}
+
+	</style>
+</head>
+<body style="padding-top: 12vmax;">
+	<div class="container" >
+		<% if (flashMessage) { %>
+            <% for (let item of flashMessage) { %>
+            <center id ="msg" style=" padding-bottom: 25px;" >  
+                
+                    <button class="add-btn" onclick="deleteMsg()"> <%= item %> <i class="fa fa-check"></i></button>
+                  
+   			
+            </center> 
+            <% } %>   
+			<% } %>
+			
+ 
+		<h2 >تسجيل الدخول</h2>
+		<form id="myForm" form action = "/auth" method = "POST">
+			<label for="username">اسم المستخدم:</label>
+			<input type="email" id="username" name="username" required>
+
+			<label for="password">كلمه السر:</label>
+			<input type="password" id="password" name="password" required>
+
+			<center><input type="submit" value="تسجيل الدخول" ></center>
+		</form>
+        <br>
+        <center>
+            <a href="/signup" >انشاء حساب</a>
+        </center>
+	</div>
+</body>
+<script>function deleteMsg(){
+    document.getElementById('msg').remove();
+  } </script>
+
+</html>
